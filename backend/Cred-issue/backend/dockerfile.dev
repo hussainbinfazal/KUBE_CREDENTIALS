@@ -1,0 +1,21 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Install nodemon for development
+RUN npm install -g nodemon
+
+# Copy source code
+COPY . .
+
+
+
+# Expose port
+EXPOSE 3000
+
+# Start with nodemon for live reloading
+CMD ["nodemon", "server.js"]

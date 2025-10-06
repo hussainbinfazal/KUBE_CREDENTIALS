@@ -1,0 +1,51 @@
+
+version: '3.9'
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - credIssue-service
+      - credVerify-service
+
+  credIssue-service:
+    build:
+      context: ./backend/Cred-issue/backend
+      dockerfile: Dockerfile
+    container_name: credIssue
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/auth
+    depends_on:
+      - mongodb
+
+  credVerify-service:
+    build:
+      context: ./backend/Cred-verify/backend 
+      dockerfile: Dockerfile
+    container_name: credVerify  
+    ports:
+      - "5005:5005"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/products
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongodb_data:
