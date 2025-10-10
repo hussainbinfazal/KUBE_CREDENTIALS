@@ -6,6 +6,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
+# Install nodemon for development
+RUN npm install -g nodemon
 
 # Copy source code
 COPY . .
@@ -16,4 +18,4 @@ COPY . .
 EXPOSE 3005
 
 # Start with nodemon for live reloading
-CMD ["npm", "run", "dev"]
+CMD ["nodemon", "server.js"]

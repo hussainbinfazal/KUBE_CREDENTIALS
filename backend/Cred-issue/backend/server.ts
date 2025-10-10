@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import path from 'path';
 import cookieParser from 'cookie-parser';
+import { credIssueRoutes } from './routes/issueCred';
 
 const app = express();
 
@@ -26,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 connectDB();
 
 // Routes
-app.use('/api/cred-Issue', );
+app.use('/api/cred',credIssueRoutes );
 
 // app.get("/", requestController);
 
