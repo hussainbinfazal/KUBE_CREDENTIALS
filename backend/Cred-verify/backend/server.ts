@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 connectDB();
 
 // Routes
-app.use('/api/verify-cred', credVerifyRoutes);
+app.use('/', credVerifyRoutes);
 
 // app.get("/", requestController);
 

@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 connectDB();
 
 // Routes
-app.use('/api/cred',credIssueRoutes );
+app.use('/',credIssueRoutes );
 
 // app.get("/", requestController);
 

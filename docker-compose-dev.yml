@@ -1,0 +1,79 @@
+services:
+  gateway:
+    build:
+      context: ./backend/gateway
+      dockerfile: Dockerfile.dev
+    container_name: api-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=development
+      - ISSUE_SERVICE_URL=http://credIssue:5000
+      - VERIFY_SERVICE_URL=http://credVerify:5005
+    depends_on:
+      - cred-issue-service
+      - cred-verify-service
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+    stdin_open: true
+    tty: true
+    depends_on:
+      - gateway
+
+  cred-issue-service:
+    build:
+      context: ./backend/Cred-issue/backend
+      dockerfile: dockerfile.dev
+    container_name: credIssue
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend/Cred-issue/backend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - MONGODB_URI=mongodb://root:example@mongodb:27017/credentials?authSource=admin
+    depends_on:
+      - mongodb 
+
+  cred-verify-service:
+    build:
+      context: ./backend/Cred-verify/backend 
+      dockerfile: dockerfile.dev
+    container_name: credVerify  
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./backend/Cred-verify/backend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - MONGODB_URI=mongodb://root:example@mongodb:27017/credentials?authSource=admin
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongodb_data_dev:/data/db
+
+volumes:
+  mongodb_data_dev:

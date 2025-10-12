@@ -6,16 +6,14 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-# Install nodemon for development
-RUN npm install -g nodemon
+# Install development tools
+RUN npm install -g nodemon tsx typescript
 
 # Copy source code
 COPY . .
-
-
 
 # Expose port
 EXPOSE 3005
 
 # Start with nodemon for live reloading
-CMD ["nodemon", "server.js"]
+CMD ["nodemon", "--exec", "tsx", "server.ts"]

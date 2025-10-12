@@ -1,4 +1,4 @@
-interface Credential {
+export interface Credential {
   id: string;
   studentName: string;
   course: string;
@@ -7,15 +7,27 @@ interface Credential {
   institutionName: string;
 }
 
-interface IssuanceResponse {
+export interface IssuanceResponse {
   message: string;
   credential: Credential;
 }
 
-interface VerificationResponse {
+export interface VerificationResponse {
   valid: boolean;
   message: string;
   credential?: Credential;
 }
 
-type PageType = 'issuance' | 'verification';
+export type PageType = 'issuance' | 'verification';
+
+export interface Credential {
+  credentialId: string;
+  name: string;
+  email: string;
+  courseName: string;
+  issuedBy: string;
+  details?: string;
+  isVerified: boolean;
+  verifiedBy?: string;
+  verifiedAt?: string;
+}
