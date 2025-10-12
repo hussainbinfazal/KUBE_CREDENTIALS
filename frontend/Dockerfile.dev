@@ -13,5 +13,4 @@ COPY . .
 # Expose port
 EXPOSE 3000
 
-# Start with nodemon for live reloading
 CMD ["npm", "run", "dev"]

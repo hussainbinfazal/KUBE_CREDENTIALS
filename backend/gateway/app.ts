@@ -8,7 +8,7 @@ app.use("/api/verify", expressProxy(`${process.env.VERIFY_SERVICE_URL}`));
 app.use("/", (req: Request, res: Response) => {
   res.send("Welcome to the Gateway");
 });
-const PORT = 3000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Gateway server listening on port ${PORT}`);
 });

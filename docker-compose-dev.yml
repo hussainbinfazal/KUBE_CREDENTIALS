@@ -8,24 +8,29 @@ services:
       - "8000:8000"
     environment:
       - NODE_ENV=development
-      - ISSUE_SERVICE_URL=http://credIssue:5000
-      - VERIFY_SERVICE_URL=http://credVerify:5005
+      - PORT=8000
+      - ISSUE_SERVICE_URL=${ISSUE_SERVICE_URL}
+      - VERIFY_SERVICE_URL=${VERIFY_SERVICE_URL}
     depends_on:
       - cred-issue-service
       - cred-verify-service
 
   frontend:
     build:
-      context: ./frontend
+      context: ./frontend/
+      dockerfile: Dockerfile.dev
+    container_name: frontend
     ports:
       - "3000:3000"
     volumes:
       - ./frontend:/app
       - /app/node_modules
-      - /app/.next
     environment:
       - NODE_ENV=development
       - WATCHPACK_POLLING=true
+      - NEXT_PUBLIC_ISSUE_API_URL=${NEXT_PUBLIC_ISSUE_API_URL}
+      - NEXT_PUBLIC_VERIFY_API_URL=${NEXT_PUBLIC_VERIFY_API_URL}
+
     stdin_open: true
     tty: true
     depends_on:
@@ -44,6 +49,7 @@ services:
     environment:
       - NODE_ENV=development
       - MONGODB_URI=mongodb://root:example@mongodb:27017/credentials?authSource=admin
+      - WORKER_ID=worker-issue-1
     depends_on:
       - mongodb 
 
@@ -60,6 +66,7 @@ services:
     environment:
       - NODE_ENV=development
       - MONGODB_URI=mongodb://root:example@mongodb:27017/credentials?authSource=admin
+      - WORKER_ID=worker-verify-1
     depends_on:
       - mongodb
 

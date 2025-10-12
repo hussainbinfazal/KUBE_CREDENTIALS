@@ -7,7 +7,7 @@ COPY package*.json ./
 RUN npm install
 
 # Install development tools
-RUN npm install -g nodemon ts-node typescript concurrently
+RUN npm install -g nodemon tsx typescript
 
 # Copy source code
 COPY . .
@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 3000
 
 # Start with nodemon for live reloading
-CMD ["nodemon", "--exec", "ts-node", "server.ts"]
+CMD ["nodemon", "--exec", "tsx", "server.ts"]

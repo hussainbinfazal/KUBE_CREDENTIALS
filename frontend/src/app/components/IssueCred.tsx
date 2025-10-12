@@ -42,7 +42,7 @@ const IssueCredential: React.FC = () => {
     setMessage(null);
 
     try {
-      const res = await axios.post<IssueResponse>("http://localhost:5000/api/issue", formData);
+      const res = await axios.post<IssueResponse>(`${process.env.NEXT_PUBLIC_ISSUE_API_URL}`, {credential:formData});
       setMessage(res.data.message  || "Credential issued successfully ✅");
     } catch (err: any) {
       setMessage(err.response?.data?.message || "Error issuing credential ❌");

@@ -20,6 +20,7 @@ export function VerifyCredPage({ credentials }: { credentials?: Credential[] }) 
   const [credentialsList, setCredentialsList] = useState(credentials || []);
 
   const unverifiedSortedCredentials = credentialsList.filter(cred => !cred.isVerified).sort((a, b) => a.credentialId.localeCompare(b.credentialId));
+  console.log("Unverified Sorted Credentials:", unverifiedSortedCredentials);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -27,7 +28,7 @@ export function VerifyCredPage({ credentials }: { credentials?: Credential[] }) 
 
     try {
       // Replace localhost with your actual deployed verify-service URL
-      const res = await axios.post<VerifyResponse>("http://localhost:5005/api/verify", {
+      const res = await axios.post<VerifyResponse>(`${process.env.NEXT_PUBLIC_VERIFY_API_URL}`, {
         credentialId,
         verifiedBy, // send this to backend
       });
@@ -45,7 +46,7 @@ export function VerifyCredPage({ credentials }: { credentials?: Credential[] }) 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2026&q=80)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
       <div className="w-full flex  flex-col md:flex-row justify-center items-center gap-6">
-        <div className="w-full max-w-md  bg-black p-4">
+        <div className="w-full max-w-md  bg-white p-4">
         {/* to show unverified credentials */}
         {unverifiedSortedCredentials.length > 0 && (
           <CredentialsTable credentials={unverifiedSortedCredentials} />
