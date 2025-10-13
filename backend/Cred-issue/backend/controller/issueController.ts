@@ -3,7 +3,7 @@ import { getCredentialId } from "../lib/getCredentialId";
 import { Request, Response } from "express";
 import { connectDB } from "../config/db";
 
-export async function issueCredential(req: Request, res: Response) {
+export async function issueCredential(req: Request, res: Response): Promise<Response> {
     try {
         await connectDB();
         
@@ -36,6 +36,6 @@ export async function issueCredential(req: Request, res: Response) {
         });
     } catch (error: any) {
         console.error('Error issuing credential:', error);
-        res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: error.message });
     }
 }

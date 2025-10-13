@@ -3,7 +3,7 @@ import { getCredentialId } from "../lib/getCredentialId";
 import { Request, Response } from "express";
 import { connectDB } from "../config/db";
 
-export async function allCredential(req: Request, res: Response) {
+export async function allCredential(req: Request, res: Response): Promise<Response> {
 
     await connectDB();
     try {
@@ -12,7 +12,7 @@ export async function allCredential(req: Request, res: Response) {
         return res.status(200).json({ sortedCredentials });
         
     } catch (error: any) {
-        res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: error.message });
     }
 
 }

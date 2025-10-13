@@ -21,9 +21,9 @@ export async function verifyCredential(req: Request, res: Response) {
         existing.verifiedBy = verifiedBy;
         existing.verifiedAt = new Date();
         await existing.save();
-        res.json({ message: `credential verified by ${verifiedBy}`, credentialId });
+        return res.json({ message: `credential verified by ${verifiedBy}`, credentialId });
     } catch (error: any) {
-        res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: error.message });
     }
 
 }
