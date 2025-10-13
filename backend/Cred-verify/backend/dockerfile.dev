@@ -16,4 +16,5 @@ COPY . .
 EXPOSE 3005
 
 # Start with nodemon for live reloading
-CMD ["nodemon", "--exec", "tsx", "server.ts"]
+CMD ["npm", "run", "dev"]
+# CMD ["nodemon", "--watch", ".", "--legacy-watch", "--ext", "ts,json", "--exec", "tsx", "server.ts"]

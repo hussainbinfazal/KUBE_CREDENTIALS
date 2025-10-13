@@ -19,18 +19,11 @@ interface CredentialsTableProps {
 }
 
 const CredentialsTable: React.FC<CredentialsTableProps> = ({ credentials }) => {
-  if (!credentials || credentials.length === 0) {
-    return (
-      <p className="text-center text-gray-500 mt-4">
-        No credentials issued yet.
-      </p>
-    );
-  }
 
   return (
     <div className="overflow-x-auto mt-6">
       <table className="min-w-full border border-gray-300 rounded-lg overflow-hidden">
-        <thead className="bg-gray-100">
+        <thead className="bg-green-600 text-white">
           <tr>
             <th className="px-4 py-2 text-left border-b">Credential ID</th>
             <th className="px-4 py-2 text-left border-b">Name</th>
@@ -45,7 +38,7 @@ const CredentialsTable: React.FC<CredentialsTableProps> = ({ credentials }) => {
         </thead>
         <tbody>
           {credentials.map((cred) => (
-            <tr key={cred.credentialId} className="hover:bg-gray-50">
+            <tr key={cred.credentialId} className="bg-white/80 hover:bg-gray-50/50">
               <td className="px-4 py-2 border-b">{cred.credentialId}</td>
               <td className="px-4 py-2 border-b">{cred.name}</td>
               <td className="px-4 py-2 border-b">{cred.email}</td>

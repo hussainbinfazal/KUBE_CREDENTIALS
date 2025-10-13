@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import path from 'path';
 import cookieParser from 'cookie-parser';
+import rateLimit from 'express-rate-limit';
 import { credIssueRoutes } from './routes/issueCred';
 
 const app = express();
@@ -21,6 +22,16 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // limit each IP to 10 requests per windowMs
+  message: 'Too many requests, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use(limiter);
 
 
 // MongoDB Connection

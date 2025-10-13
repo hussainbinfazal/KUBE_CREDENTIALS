@@ -2,51 +2,60 @@
 version: '3.9'
 services:
   gateway:
-   build:
-     context: ./backend/gateway
-     dockerfile: Dockerfile.dev
-   container_name: api-gateway
-   ports:
-     - "8000:8000"
-   environment:
-     - NODE_ENV=development
-     - ISSUE_SERVICE_URL={ISSUE_SERVICE_URL}
-     - VERIFY_SERVICE_URL={VERIFY_SERVICE_URL}
-   depends_on:
-     - cred-issue-service
-     - cred-verify-service
+    build:
+      context: ./backend/gateway
+      dockerfile: Dockerfile.prod
+    container_name: api-gateway
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+      - ISSUE_SERVICE_URL=${ISSUE_SERVICE_URL}
+      - VERIFY_SERVICE_URL=${VERIFY_SERVICE_URL}
+    depends_on:
+      - cred-issue-service
+      - cred-verify-service
 
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
+    container_name: frontend
+    restart: unless-stopped
     ports:
       - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
     depends_on:
-      - credIssue-service
-      - credVerify-service
+      - gateway
 
-  credIssue-service:
+  cred-issue-service:
     build:
       context: ./backend/Cred-issue/backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     container_name: credIssue
+    restart: unless-stopped
     ports:
       - "5000:5000"
     environment:
-      - MONGODB_URI={MONGODB_URI}
+      - NODE_ENV=production
+      - MONGODB_URI=${ISSUE_MONGODB_URI}
     depends_on:
       - mongodb
 
-  credVerify-service:
+  cred-verify-service:
     build:
-      context: ./backend/Cred-verify/backend 
-      dockerfile: Dockerfile
-    container_name: credVerify  
+      context: ./backend/Cred-verify/backend
+      dockerfile: Dockerfile.prod
+    container_name: credVerify
+    restart: unless-stopped
     ports:
       - "5005:5005"
     environment:
-      - MONGODB_URI={MONGODB_URI}
+      - NODE_ENV=production
+      - MONGODB_URI=${VERIFY_MONGODB_URI}
     depends_on:
       - mongodb
 
@@ -60,7 +69,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
-      - mongo-data:/data/db
+      - mongodb_data_prod:/data/db
 
 volumes:
-  mongodb_data:
+  mongodb_data_prod:

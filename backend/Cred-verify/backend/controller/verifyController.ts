@@ -6,9 +6,9 @@ export async function verifyCredential(req: Request, res: Response) {
 
     await connectDB();
     try {
-        const { credentialId, credential } = req.body;
-        if (!credentialId || !credential) {
-            return res.status(400).json({ message: "Missing credentialId or credential in request body" });
+        const { credentialId, verifiedBy } = req.body;
+        if (!credentialId) {
+            return res.status(400).json({ message: "Missing credentialId in request body" });
         }
         const existing = await Credential.findOne({ credentialId });
         if (!existing) {
@@ -18,10 +18,10 @@ export async function verifyCredential(req: Request, res: Response) {
             return res.status(400).json({ message: "credential already verified" });
         }
         existing.isVerified = true;
-        existing.verifiedBy = process.env.WORKER_ID || `worker-${process.pid}`;
+        existing.verifiedBy = verifiedBy;
         existing.verifiedAt = new Date();
         await existing.save();
-        res.json({ message: `credential verified by ${process.env.WORKER_ID || `worker-${process.pid}`}`, credentialId });
+        res.json({ message: `credential verified by ${verifiedBy}`, credentialId });
     } catch (error: any) {
         res.status(500).json({ message: error.message });
     }

@@ -10,6 +10,14 @@ const credentialSchema = new Schema<ICredential>(
       unique: true,
       index: true,
     },
+    recipient: {
+      type: String,
+      required: true,
+    },
+    recipientEmail: {
+      type: String,
+      required: true,
+    },
     credential: {
       type: Schema.Types.Mixed,
       required: true,
@@ -25,6 +33,7 @@ const credentialSchema = new Schema<ICredential>(
     isVerified: { type: Boolean, default: false },
     verifiedBy: { type: String },
     verifiedAt: { type: Date },
+    details: { type: String },
   },
   {
     timestamps: true,

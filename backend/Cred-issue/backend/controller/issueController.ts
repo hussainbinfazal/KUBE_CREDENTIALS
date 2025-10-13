@@ -22,8 +22,11 @@ export async function issueCredential(req: Request, res: Response) {
 
         const newCredential = await Credential.create({
             credentialId: generatedCredId,
-            credential: credential,
-            issuedBy: process.env.WORKER_ID || `worker-${process.pid}`,
+            recipient: credential.recipient,
+            recipientEmail: credential.recipientEmail,
+            credential: credential.credential,
+            issuedBy: credential.issuedBy,
+            details: credential.details,
         });
         
         console.log('Credential saved:', newCredential._id);

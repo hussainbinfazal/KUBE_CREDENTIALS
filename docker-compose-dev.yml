@@ -4,6 +4,7 @@ services:
       context: ./backend/gateway
       dockerfile: Dockerfile.dev
     container_name: api-gateway
+    restart: always
     ports:
       - "8000:8000"
     environment:
@@ -14,12 +15,16 @@ services:
     depends_on:
       - cred-issue-service
       - cred-verify-service
-
+    volumes:
+    - ./backend/gateway:/app
+    - /app/node_modules
+ 
   frontend:
     build:
       context: ./frontend/
       dockerfile: Dockerfile.dev
     container_name: frontend
+    restart: always
     ports:
       - "3000:3000"
     volumes:
@@ -27,6 +32,9 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - NEXT_PUBLIC_FETCH_CREDENTIALS=${NEXT_PUBLIC_FETCH_CREDENTIALS}
+      - SERVER_URL=${SERVER_URL}
+      - FETCH_CREDENTIALS=${FETCH_CREDENTIALS}
       - WATCHPACK_POLLING=true
       - NEXT_PUBLIC_ISSUE_API_URL=${NEXT_PUBLIC_ISSUE_API_URL}
       - NEXT_PUBLIC_VERIFY_API_URL=${NEXT_PUBLIC_VERIFY_API_URL}
@@ -41,6 +49,7 @@ services:
       context: ./backend/Cred-issue/backend
       dockerfile: dockerfile.dev
     container_name: credIssue
+    restart: always
     ports:
       - "5000:5000"
     volumes:
@@ -48,7 +57,7 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
-      - MONGODB_URI=mongodb://root:example@mongodb:27017/credentials?authSource=admin
+      - MONGODB_URI=${ISSUE_MONGODB_URI}
       - WORKER_ID=worker-issue-1
     depends_on:
       - mongodb 
@@ -57,7 +66,8 @@ services:
     build:
       context: ./backend/Cred-verify/backend 
       dockerfile: dockerfile.dev
-    container_name: credVerify  
+    container_name: credVerify
+    restart: always  
     ports:
       - "5005:5005"
     volumes:
@@ -65,7 +75,7 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
-      - MONGODB_URI=mongodb://root:example@mongodb:27017/credentials?authSource=admin
+      - MONGODB_URI=${VERIFY_MONGODB_URI}
       - WORKER_ID=worker-verify-1
     depends_on:
       - mongodb

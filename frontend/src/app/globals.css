@@ -20,7 +20,12 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer 10+ */
+  overflow-x: none; /* Prevent horizontal scroll */
+}
+
+/* Chrome, Safari, and Opera */
+::-webkit-scrollbar {
+  display: none;
 }

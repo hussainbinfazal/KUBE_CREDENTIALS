@@ -1,14 +1,14 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "sevrer.ts",
+  "main": "server.ts",
   "type": "module",
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
     "watch": "tsc -w",
-    "server": "nodemon dist/index.js",
-    "dev": "concurrently \"npm run watch\" \"npm run server\""
+    "server": "nodemon dist/server.js",
+    "dev": "nodemon --watch . --ext ts,json --exec tsx server.ts"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +25,7 @@
     "crypto": "^1.0.1",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "express-rate-limit": "^7.5.1",
     "mongoose": "^8.19.1"
   }
 }

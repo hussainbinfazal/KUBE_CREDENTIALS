@@ -14,7 +14,7 @@ COPY . .
 RUN tsc
 
 
-EXPOSE 3005
+EXPOSE 5005
 
 
 CMD ["node", "dist/server.js"]

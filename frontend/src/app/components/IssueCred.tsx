@@ -1,13 +1,16 @@
-'use client';
+  'use client';
 
 import React, { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface CredentialForm {
-  credentialId: string;
-  name: string;
-  email: string;
-  courseName: string;
+  recipient: string;
+  recipientEmail: string;
+  credential: {
+    courseName: string;
+    [key: string]: any;
+  };
   issuedBy: string;
   details: string;
 }
@@ -19,31 +22,51 @@ interface IssueResponse {
 
 const IssueCredential: React.FC = () => {
   const [formData, setFormData] = useState<CredentialForm>({
-    credentialId: "",
-    name: "",
-    email: "",
-    courseName: "",
+    recipient: "",
+    recipientEmail: "",
+    credential: {
+      courseName: "",
+    },
     issuedBy: "",
     details: "",
   });
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [lastSubmit, setLastSubmit] = useState(0);
+  const router = useRouter();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === 'courseName') {
+      setFormData({ 
+        ...formData, 
+        credential: { ...formData.credential, courseName: value }
+      });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const now = Date.now();
+    if (now - lastSubmit < 2000) {
+      setMessage("Please wait before submitting again");
+      return;
+    }
+    setLastSubmit(now);
+    
     setLoading(true);
     setMessage(null);
 
     try {
       const res = await axios.post<IssueResponse>(`${process.env.NEXT_PUBLIC_ISSUE_API_URL}`, {credential:formData});
       setMessage(res.data.message  || "Credential issued successfully ✅");
+      router.push("/");
     } catch (err: any) {
       setMessage(err.response?.data?.message || "Error issuing credential ❌");
     } finally {
@@ -59,21 +82,13 @@ const IssueCredential: React.FC = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-3">
-          <input
-            type="text"
-            name="credentialId"
-            placeholder="Credential ID"
-            value={formData.credentialId}
-            onChange={handleChange}
-            required
-            className="w-full border text-black border-gray-300 p-2 rounded-lg"
-          />
+          
 
           <input
             type="text"
-            name="name"
+            name="recipient"
             placeholder="Recipient Name"
-            value={formData.name}
+            value={formData.recipient}
             onChange={handleChange}
             required
             className="w-full border text-black border-gray-300 p-2 rounded-lg"
@@ -81,9 +96,9 @@ const IssueCredential: React.FC = () => {
 
           <input
             type="email"
-            name="email"
+            name="recipientEmail"
             placeholder="Recipient Email"
-            value={formData.email}
+            value={formData.recipientEmail}
             onChange={handleChange}
             required
             className="w-full border text-black border-gray-300 p-2 rounded-lg"
@@ -93,7 +108,7 @@ const IssueCredential: React.FC = () => {
             type="text"
             name="courseName"
             placeholder="Course / Program Name"
-            value={formData.courseName}
+            value={formData.credential.courseName}
             onChange={handleChange}
             required
             className="w-full border text-black border-gray-300 p-2 rounded-lg"
