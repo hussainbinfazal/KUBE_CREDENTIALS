@@ -1,21 +1,20 @@
 
 import express from 'express';
 import cors from 'cors';
-import mongoose from 'mongoose';
-import { connectDB } from './config/db';
+import { connectDB } from './config/db.js';
 import dotenv from 'dotenv';
 dotenv.config();
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
-import { credIssueRoutes } from './routes/issueCred';
+import { credIssueRoutes } from './routes/issueCred.js';
 
 const app = express();
 
 // Middleware
 app.use(cors({
     origin: process.env.CLIENT_URL,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],  // You can customize the methods allowed
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],  
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
@@ -26,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // limit each IP to 10 requests per windowMs
+  max: 10,
   message: 'Too many requests, please try again later.',
   standardHeaders: true,
   legacyHeaders: false,

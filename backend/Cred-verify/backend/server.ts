@@ -3,20 +3,20 @@
 
 import express from 'express';
 import cors from 'cors';
-import { connectDB } from './config/db';
+import { connectDB } from './config/db.js';
 import dotenv from 'dotenv';
 dotenv.config();
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
-import { credVerifyRoutes } from './routes/verifyCred';
+import { credVerifyRoutes } from './routes/verifyCred.js';
 
 const app = express();
 
 // Middleware
 app.use(cors({
     origin: process.env.CLIENT_URL,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],  // You can customize the methods allowed
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],  
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 15, // limit each IP to 15 requests per windowMs
+  max: 15, 
   message: 'Too many verification requests, please try again later.',
   standardHeaders: true,
   legacyHeaders: false,
