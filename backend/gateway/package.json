@@ -21,7 +21,7 @@
     "nodemon": "^3.1.10"
   },
   "devDependencies": {
-    "@types/node": "^24.0.13",
+    
     "@types/express-http-proxy": "^1.6.7",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.3"
