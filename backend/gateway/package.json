@@ -5,9 +5,10 @@
   "type": "commonjs",
   "scripts": {
     "build": "tsc",
-    "dev": "npx nodemon --watch \"./**/*.ts\" --exec \"tsx app.ts\"",
     "start": "node dist/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "tsc -w",
+    "server": "nodemon dist/app.js",
+    "dev": "nodemon --watch . --ext ts,json --exec tsx app.ts"
   },
   "keywords": [],
   "author": "",
