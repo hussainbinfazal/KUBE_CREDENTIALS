@@ -1,5 +1,5 @@
 import { Schema, model, Document } from "mongoose";
-import { ICredential } from "../global";
+import { ICredential } from "../global.js";
 
 
 const credentialSchema = new Schema<ICredential>(

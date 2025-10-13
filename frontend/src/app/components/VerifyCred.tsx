@@ -17,7 +17,7 @@ export function VerifyCredPage({ credentials }: { credentials?: Credential[] }) 
   const [verifiedBy, setVerifiedBy] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<VerifyResponse | null>(null);
-  const [credentialsList, setCredentialsList] = useState(credentials || []);
+  const [credentialsList] = useState(credentials || []);
   const [lastSubmit, setLastSubmit] = useState(0);
 
   const unverifiedSortedCredentials = credentialsList.filter(cred => !cred.isVerified).sort((a, b) => a.credentialId.localeCompare(b.credentialId));
@@ -43,10 +43,18 @@ export function VerifyCredPage({ credentials }: { credentials?: Credential[] }) 
       });
 
       setResult(res.data);
-    } catch (err: any) {
-      setResult({
-        message: err.response?.data?.message || "Verification failed ❌",
-      });
+    } catch (err: unknown) {
+      const isAxiosError = (e: unknown): e is { response?: { data?: { message?: string } } } => {
+        return typeof e === 'object' && e !== null && 'response' in (e as any);
+      };
+
+      if (isAxiosError(err)) {
+        setResult({ message: (err as any).response?.data?.message || "Verification failed ❌" });
+      } else if (err instanceof Error) {
+        setResult({ message: err.message });
+      } else {
+        setResult({ message: "Verification failed ❌" });
+      }
     } finally {
       setLoading(false);
     }

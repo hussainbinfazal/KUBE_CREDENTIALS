@@ -1,7 +1,7 @@
-import { Credential } from "../model/credModel";
-import { getCredentialId } from "../lib/getCredentialId";
+import { Credential } from "../model/credModel.js";
+import { getCredentialId } from "../lib/getCredentialId.js";
 import { Request, Response } from "express";
-import { connectDB } from "../config/db";
+import { connectDB } from "../config/db.js";
 
 export async function issueCredential(req: Request, res: Response): Promise<Response> {
     try {

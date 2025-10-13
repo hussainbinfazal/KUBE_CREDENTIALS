@@ -1,6 +1,6 @@
-import { Credential } from "../model/credModel";
+import { Credential } from "../model/credModel.js";
 import { Request, Response } from "express";
-import { connectDB } from "../config/db";
+import { connectDB } from "../config/db.js";
 
 export async function verifyCredential(req: Request, res: Response) {
 

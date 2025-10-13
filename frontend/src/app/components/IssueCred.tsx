@@ -9,7 +9,7 @@ interface CredentialForm {
   recipientEmail: string;
   credential: {
     courseName: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
   issuedBy: string;
   details: string;
@@ -67,8 +67,18 @@ const IssueCredential: React.FC = () => {
       const res = await axios.post<IssueResponse>(`${process.env.NEXT_PUBLIC_ISSUE_API_URL}`, {credential:formData});
       setMessage(res.data.message  || "Credential issued successfully ✅");
       router.push("/");
-    } catch (err: any) {
-      setMessage(err.response?.data?.message || "Error issuing credential ❌");
+    } catch (err: unknown) {
+      const isAxiosError = (e: unknown): e is { response?: { data?: { message?: string } } } => {
+        return typeof e === 'object' && e !== null && 'response' in (e as any);
+      };
+
+      if (isAxiosError(err)) {
+        setMessage((err as any).response?.data?.message || "Error issuing credential ❌");
+      } else if (err instanceof Error) {
+        setMessage(err.message);
+      } else {
+        setMessage("Error issuing credential ❌");
+      }
     } finally {
       setLoading(false);
     }

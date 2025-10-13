@@ -1,6 +1,6 @@
 import express from 'express';
-import { issueCredential } from '../controller/issueController';
-import { allCredential } from '../controller/allCredentials';
+import { issueCredential } from '../controller/issueController.js';
+import { allCredential } from '../controller/allCredentials.js';
 const router = express.Router();
 
 router.post('/', issueCredential);
