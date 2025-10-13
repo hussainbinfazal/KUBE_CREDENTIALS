@@ -1,7 +1,7 @@
-import Image from "next/image";
+
 import Link from "next/link";
 import CredentialsTable from "./components/allCredentials";
-import { Credential } from "@/globals";
+
 import { fetchCredentials } from "@/utils/fetchAllCred";
 
 

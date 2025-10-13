@@ -23,7 +23,7 @@
     "isolatedModules": true,
 
     
-
+    "types": ["node"],
 
     
     "sourceMap": true

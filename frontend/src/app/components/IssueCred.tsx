@@ -46,7 +46,7 @@ const IssueCredential: React.FC = () => {
         credential: { ...formData.credential, courseName: value }
       });
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData({ ...formData, [name]: value } as unknown as CredentialForm);
     }
   };
 
