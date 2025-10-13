@@ -21,8 +21,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", (req: Request, res: Response) => {
   res.send("Welcome to the Gateway");
 });
+
+// Simple health endpoint
+app.get('/health', (req: Request, res: Response) => {
+  res.json({ service: 'gateway', status: 'ok' });
+});
 app.use("/api/issue", expressProxy(`${process.env.ISSUE_SERVICE_URL}`));
 app.use("/api/verify", expressProxy(`${process.env.VERIFY_SERVICE_URL}`));
+
 if (process.env.NODE_ENV === 'production') {
     // Serve static files from the build folder
     app.use(express.static(path.join(__dirname, 'dist')));

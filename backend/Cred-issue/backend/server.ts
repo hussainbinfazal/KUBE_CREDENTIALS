@@ -8,7 +8,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
 import { credIssueRoutes } from './routes/issueCred.js';
-
+import { fileURLToPath } from 'url';
 const app = express();
 
 // Middleware
@@ -39,7 +39,12 @@ connectDB();
 // Routes
 app.use('/',credIssueRoutes );
 
-
+// Health endpoint
+app.get('/health', (req, res) => {
+  res.json({ service: 'cred-issue', status: 'ok' });
+});
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, 'dist')));
     
