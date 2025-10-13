@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-
+export const dynamic = "force-dynamic";
 interface CredentialForm {
   recipient: string;
   recipientEmail: string;

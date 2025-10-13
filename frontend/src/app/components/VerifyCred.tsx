@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Credential } from "@/globals";
 import CredentialsTable from "./allCredentials";
-
+export const dynamic = "force-dynamic";
 interface VerifyResponse {
   message: string;
   isVerified?: boolean;
