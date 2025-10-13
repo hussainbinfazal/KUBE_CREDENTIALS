@@ -1,7 +1,7 @@
-import { Credential } from "@/globals";
+export const dynamic = "force-dynamic";
+
 import { VerifyCredPage } from "../components/VerifyCred";
 import { fetchCredentials } from "@/utils/fetchAllCred";
-export const dynamic = "force-dynamic";
 
 
 export default async function Verify() {

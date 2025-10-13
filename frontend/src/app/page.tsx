@@ -1,7 +1,7 @@
 
+export const dynamic = "force-dynamic";
 import Link from "next/link";
 import CredentialsTable from "./components/allCredentials";
-export const dynamic = "force-dynamic";
 
 import { fetchCredentials } from "@/utils/fetchAllCred";
 
