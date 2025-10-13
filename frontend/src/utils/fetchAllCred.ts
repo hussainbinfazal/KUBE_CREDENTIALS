@@ -4,7 +4,7 @@ export async function fetchCredentials(): Promise<Credential[]> {
   try {
     const url = process.env.FETCH_CREDENTIALS || `${process.env.SERVER_URL}/api/issue/allCredentials`;
     console.log('Fetching from URL:', url);
-    const res = await fetch(url, {
+    const res = await fetch(url!, {
       cache: "no-store", 
     });
     if (!res.ok) {
