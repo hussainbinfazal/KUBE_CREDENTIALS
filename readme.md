@@ -1,8 +1,6 @@
 # Kube-Credential
 
-A small microservices example demonstrating credential issuance and verification.
-
-This repository contains three backend services (issuance, verification, and a gateway) and a Next.js frontend. It is designed for local development using Docker Compose or for running services individually during development.
+A dockerized small microservices example demonstrating credential issuance and verification.
 
 ## What's included
 
@@ -25,29 +23,29 @@ This repository contains three backend services (issuance, verification, and a g
 
 - Node.js 16+ and npm or yarn
 - Docker & Docker Compose (for running the whole stack)
-- Optional: MongoDB (if you prefer not to use the Dockerized Mongo in compose)
+- Optional: MongoDB
 
 ## Environment variables
 
 Each service has a local `.env` (or `.env.local`) file. Example variables:
 
 - Cred-issue (backend/Cred-issue/backend/.env)
-  - PORT=4001
+  - PORT=5000
   - MONGO_URI=mongodb://mongo:27017/kube_credentials_issue
 
 - Cred-verify (backend/Cred-verify/backend/.env)
-  - PORT=4002
+  - PORT=5005
   - MONGO_URI=mongodb://mongo:27017/kube_credentials_verify
 
 - Gateway (backend/gateway/.env.local)
-  - PORT=3000
+  - PORT=8000
   - ISSUE_SERVICE_URL=http://cred-issue:4001
   - VERIFY_SERVICE_URL=http://cred-verify:4002
 
 - Frontend (frontend/.env or NEXT_PUBLIC_* envs)
   - NEXT_PUBLIC_API_URL=http://localhost:3000
 
-Adjust hostnames when running services without Docker (e.g., use `http://localhost:4001`).
+Adjust hostnames when running services without Docker (e.g., use `http://localhost:5000`).
 
 ## Run - development (using Docker Compose)
 
