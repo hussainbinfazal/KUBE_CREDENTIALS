@@ -1,5 +1,4 @@
 import { Credential } from "../model/credModel.js";
-import { getCredentialId } from "../lib/getCredentialId.js";
 import { Request, Response } from "express";
 import { connectDB } from "../config/db.js";
 
