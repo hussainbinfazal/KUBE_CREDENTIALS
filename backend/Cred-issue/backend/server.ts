@@ -4,11 +4,11 @@ import cors from 'cors';
 import { connectDB } from './config/db.js';
 import dotenv from 'dotenv';
 dotenv.config();
-// import path from 'path';
+
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
 import { credIssueRoutes } from './routes/issueCred.js';
-// import { fileURLToPath } from 'url';
+
 const app = express();
 
 // Middleware
@@ -43,16 +43,6 @@ app.use('/',credIssueRoutes );
 app.get('/health', (req, res) => {
   res.json({ service: 'cred-issue', status: 'ok' });
 });
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-// if (process.env.NODE_ENV === 'production') {
-//     app.use(express.static(path.join(__dirname, 'dist')));
-    
-//     app.get(/.*/, (req, res) => {
-//     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-//   });
-// } else {
-//     // Development route
-// }
+
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

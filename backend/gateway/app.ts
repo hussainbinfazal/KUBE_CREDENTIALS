@@ -3,7 +3,7 @@ import expressProxy from "express-http-proxy";
 import cors from 'cors';
 import dotenv from "dotenv";
 import cookieParser from 'cookie-parser';
-// import path from 'path';
+
 
 
 dotenv.config();
@@ -29,17 +29,7 @@ app.get('/health', (req: Request, res: Response) => {
 app.use("/api/issue", expressProxy(`${process.env.ISSUE_SERVICE_URL}`));
 app.use("/api/verify", expressProxy(`${process.env.VERIFY_SERVICE_URL}`));
 
-// if (process.env.NODE_ENV === 'production') {
-//     // Serve static files from the build folder
-//     app.use(express.static(path.join(__dirname, 'dist')));
-    
- 
-//   app.get(/.*/, (req, res) => {
-//     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-//   });
-// } else {
-    
-// }
+
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
