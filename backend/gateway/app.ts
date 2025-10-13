@@ -28,9 +28,9 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, 'dist')));
     
   // Handle React routing - send all non-API requests to React app
-  // Use '/*' instead of '*' because some path-to-regexp versions
-  // throw when '*' is passed directly (missing parameter name).
-  app.get('/*', (req, res) => {
+  // Use a RegExp route to avoid path-to-regexp parsing issues with '*' patterns.
+  // This will match any path and is registered after API routes, so API calls are unaffected.
+  app.get(/.*/, (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
   });
 } else {
