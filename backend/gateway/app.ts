@@ -18,9 +18,6 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-// app.use("/", (req: Request, res: Response) => {
-//   res.send("Welcome to the Gateway");
-// });
 
 // Simple health endpoint
 app.get('/health', (req: Request, res: Response) => {
