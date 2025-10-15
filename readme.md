@@ -1,6 +1,6 @@
 # Kube-Credential
 
-A dockerized small microservices example demonstrating credential issuance and verification.
+A Dockerized small microservices example demonstrating credential issuance and verification.
 
 ## What's included
 
