@@ -5,7 +5,15 @@ import CredentialsTable from "./components/allCredentials";
 
 import { fetchCredentials } from "@/utils/fetchAllCred";
 
-
+async function checkHealth() : Promise<void>{ // For Render awake pings
+  try{
+    const res = await fetch(`${process.env.ISSUE_SERVER_URL}/health`);
+    const res2  = await fetch(`${process.env.VERIFY_SERVER_URL}/health`);
+    
+  }catch(error : any){
+    return 
+  }
+}
 export default async function Home() {
   const credentials = await fetchCredentials();
   return (
